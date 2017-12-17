@@ -44,6 +44,15 @@ for person_name in data_dict:
         if data_dict[person_name][feature] == 'NaN':
             missing_values[feature] += 1
 
+for name, value in data_dict.iteritems():
+    if value['from_poi_to_this_person'] not in ['NaN',0] and\
+        value['from_this_person_to_poi'] != 'NaN':
+        value['poi_to_this_person_rate'] = value['from_poi_to_this_person']/\
+        (value['from_poi_to_this_person']+ value['from_this_person_to_poi'])
+    else:
+        value['poi_to_this_person_rate'] = 0
+    
+
 # we only interest in features that does not have a lot of missing_values
 for k, v in missing_values.iteritems():
     if v >= 0.7*len(data_dict):
